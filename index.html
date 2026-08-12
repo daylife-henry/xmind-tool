@@ -1,0 +1,72 @@
+<!--
+  日期：2026-08-12
+  作者：Henry / WorkBuddy
+  代码说明：MindMap 编辑器入口页面，包含工具栏、SVG 画布、编辑浮层与文件输入。
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>思维导图工具 | MindMap Studio</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="theme-colorful">
+  <div id="toolbar">
+    <div class="group">
+      <button data-action="new" title="Ctrl+N">新建</button>
+      <button data-action="open" title="Ctrl+O">打开</button>
+      <button data-action="save" title="Ctrl+S">保存 JSON</button>
+      <button data-action="exportSvg" title="Ctrl+E">导出 SVG</button>
+    </div>
+    <div class="group">
+      <button data-action="addChild" title="Tab">子节点</button>
+      <button data-action="addSibling" title="Enter">兄弟节点</button>
+      <button data-action="delete" title="Delete">删除</button>
+      <button data-action="collapse" title="Space">折叠/展开</button>
+    </div>
+    <div class="group">
+      <button data-action="undo" title="Ctrl+Z">撤销</button>
+      <button data-action="redo" title="Ctrl+Shift+Z">重做</button>
+    </div>
+    <div class="group">
+      <button data-action="zoomOut">-</button>
+      <button data-action="fit">适配</button>
+      <button data-action="zoomIn">+</button>
+    </div>
+    <div class="group">
+      <label>布局
+        <select id="layoutSelect">
+          <option value="right">思维导图（右）</option>
+          <option value="down">组织结构图（下）</option>
+          <option value="radial">径向图</option>
+        </select>
+      </label>
+      <label>主题
+        <select id="themeSelect">
+          <option value="colorful">彩色分支</option>
+          <option value="dark">暗色</option>
+          <option value="simple">简约</option>
+        </select>
+      </label>
+    </div>
+    <div class="group" style="margin-left:auto;">
+      <input id="searchInput" type="text" placeholder="搜索节点..." />
+    </div>
+  </div>
+
+  <div id="workspace">
+    <svg id="mapSvg" tabindex="0">
+      <g id="viewport">
+        <g id="linksLayer"></g>
+        <g id="nodesLayer"></g>
+      </g>
+    </svg>
+    <div id="editOverlay" class="hidden" contenteditable="true"></div>
+  </div>
+
+  <input type="file" id="fileInput" accept=".json,.mind" class="hidden">
+
+  <script src="js/app.js"></script>
+</body>
+</html>

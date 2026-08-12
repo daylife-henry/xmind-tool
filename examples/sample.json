@@ -1,0 +1,84 @@
+{
+  "id": "node-1",
+  "text": "智能体",
+  "collapsed": false,
+  "color": null,
+  "children": [
+    {
+      "id": "node-2",
+      "text": "大模型",
+      "collapsed": false,
+      "color": null,
+      "children": [
+        {
+          "id": "node-3",
+          "text": "本地部署",
+          "collapsed": false,
+          "color": null,
+          "children": [
+            {
+              "id": "node-4",
+              "text": "Ollama",
+              "collapsed": false,
+              "color": null,
+              "children": [
+                { "id": "node-5", "text": "Deepseek R1", "collapsed": false, "color": null, "children": [] },
+                { "id": "node-6", "text": "Qwen3", "collapsed": false, "color": null, "children": [] }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "node-7",
+          "text": "远程调用",
+          "collapsed": false,
+          "color": null,
+          "children": [
+            {
+              "id": "node-8",
+              "text": "阿里云百炼",
+              "collapsed": false,
+              "color": null,
+              "children": [
+                { "id": "node-9", "text": "Qwen3", "collapsed": false, "color": null, "children": [] },
+                { "id": "node-10", "text": "QWQ", "collapsed": false, "color": null, "children": [] },
+                { "id": "node-11", "text": "QVQ", "collapsed": false, "color": null, "children": [] }
+              ]
+            }
+          ]
+        },
+        { "id": "node-12", "text": "大模型调用方法", "collapsed": false, "color": null, "children": [] }
+      ]
+    },
+    {
+      "id": "node-13",
+      "text": "工具",
+      "collapsed": false,
+      "color": null,
+      "children": [
+        { "id": "node-14", "text": "Function Calling", "collapsed": false, "color": null, "children": [] },
+        { "id": "node-15", "text": "MCP工具", "collapsed": false, "color": null, "children": [] },
+        { "id": "node-16", "text": "LangChain内置工具", "collapsed": false, "color": null, "children": [] },
+        {
+          "id": "node-17",
+          "text": "复杂工具",
+          "collapsed": false,
+          "color": null,
+          "children": [
+            { "id": "node-18", "text": "浏览器控制", "collapsed": false, "color": null, "children": [] },
+            { "id": "node-19", "text": "终端控制", "collapsed": false, "color": null, "children": [] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-20",
+      "text": "智能体",
+      "collapsed": false,
+      "color": null,
+      "children": [
+        { "id": "node-21", "text": "React架构", "collapsed": false, "color": null, "children": [] }
+      ]
+    }
+  ]
+}
