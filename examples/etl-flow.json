@@ -1,0 +1,74 @@
+{
+  "id": "node-1",
+  "text": "ETL_CONFIG",
+  "collapsed": false,
+  "color": null,
+  "dx": 0,
+  "dy": 0,
+  "children": [
+    {
+      "id": "node-2",
+      "text": "Generic Engine",
+      "collapsed": false,
+      "color": null,
+      "dx": 0,
+      "dy": 0,
+      "children": [
+        {
+          "id": "node-3",
+          "text": "Watermark",
+          "collapsed": false,
+          "color": null,
+          "dx": 0,
+          "dy": 0,
+          "children": [
+            {
+              "id": "node-4",
+              "text": "读取 UPDATED_AT 增量数据",
+              "collapsed": false,
+              "color": null,
+              "dx": 0,
+              "dy": 0,
+              "children": [
+                {
+                  "id": "node-5",
+                  "text": "根据 OP 判断",
+                  "collapsed": false,
+                  "color": null,
+                  "dx": 0,
+                  "dy": 0,
+                  "children": [
+                    { "id": "node-6", "text": "I → INSERT", "collapsed": false, "color": null, "dx": 0, "dy": 0, "children": [] },
+                    { "id": "node-7", "text": "U → UPDATE", "collapsed": false, "color": null, "dx": 0, "dy": 0, "children": [] },
+                    { "id": "node-8", "text": "D → DELETE", "collapsed": false, "color": null, "dx": 0, "dy": 0, "children": [] }
+                  ]
+                },
+                {
+                  "id": "node-9",
+                  "text": "Delta MERGE",
+                  "collapsed": false,
+                  "color": null,
+                  "dx": 0,
+                  "dy": 0,
+                  "children": [
+                    {
+                      "id": "node-10",
+                      "text": "Watermark Update",
+                      "collapsed": false,
+                      "color": null,
+                      "dx": 0,
+                      "dy": 0,
+                      "children": [
+                        { "id": "node-11", "text": "ETL_LOG", "collapsed": false, "color": null, "dx": 0, "dy": 0, "children": [] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

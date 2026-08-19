@@ -71,9 +71,10 @@ xmind_tool/
 ├── css/
 │   └── style.css       # 样式与主题
 ├── js/
-│   └── app.js          # 核心逻辑：数据、布局、渲染、交互、导入导出
+│   └── app.js          # 核心逻辑：数据、布局、渲染、交互、导入导出、内置模板
 ├── examples/
-│   └── sample.json     # 示例导图（可导入）
+│   ├── sample.json     # 示例导图（可导入）
+│   └── etl-flow.json   # ETL 数据流模板（可导入，与内置 ETL 模板同源）
 └── README.md           # 本文件
 ```
 
@@ -142,4 +143,4 @@ xmind_tool/
 ---
 
 作者：Henry / WorkBuddy  
-日期：2026-08-12
+日期：2026-08-19

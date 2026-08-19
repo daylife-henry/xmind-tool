@@ -48,6 +48,130 @@
     }
   };
 
+  // 内置模板：每项为 { layout: 推荐布局, data: 序列化树 }。
+  // 模板内联存储，保证 file:// 双击打开也能加载，不依赖本地服务器。
+  const TEMPLATES = {
+    agent: {
+      layout: 'right',
+      data: {
+        id: 'node-1',
+        text: '智能体',
+        children: [
+          {
+            id: 'node-2',
+            text: '大模型',
+            children: [
+              {
+                id: 'node-3',
+                text: '本地部署',
+                children: [
+                  {
+                    id: 'node-4',
+                    text: 'Ollama',
+                    children: [
+                      { id: 'node-5', text: 'Deepseek R1' },
+                      { id: 'node-6', text: 'Qwen3' }
+                    ]
+                  }
+                ]
+              },
+              {
+                id: 'node-7',
+                text: '远程调用',
+                children: [
+                  {
+                    id: 'node-8',
+                    text: '阿里云百炼',
+                    children: [
+                      { id: 'node-9', text: 'Qwen3' },
+                      { id: 'node-10', text: 'QWQ' },
+                      { id: 'node-11', text: 'QVQ' }
+                    ]
+                  }
+                ]
+              },
+              { id: 'node-12', text: '大模型调用方法' }
+            ]
+          },
+          {
+            id: 'node-13',
+            text: '工具',
+            children: [
+              { id: 'node-14', text: 'Function Calling' },
+              { id: 'node-15', text: 'MCP工具' },
+              { id: 'node-16', text: 'LangChain内置工具' },
+              {
+                id: 'node-17',
+                text: '复杂工具',
+                children: [
+                  { id: 'node-18', text: '浏览器控制' },
+                  { id: 'node-19', text: '终端控制' }
+                ]
+              }
+            ]
+          },
+          {
+            id: 'node-20',
+            text: '智能体',
+            children: [
+              { id: 'node-21', text: 'React架构' }
+            ]
+          }
+        ]
+      }
+    },
+    etl: {
+      // ETL 增量同步数据流：竖向下面的树，中间「根据 OP 判断」分叉为 I/U/D。
+      layout: 'down',
+      data: {
+        id: 'node-1',
+        text: 'ETL_CONFIG',
+        children: [
+          {
+            id: 'node-2',
+            text: 'Generic Engine',
+            children: [
+              {
+                id: 'node-3',
+                text: 'Watermark',
+                children: [
+                  {
+                    id: 'node-4',
+                    text: '读取 UPDATED_AT 增量数据',
+                    children: [
+                      {
+                        id: 'node-5',
+                        text: '根据 OP 判断',
+                        children: [
+                          { id: 'node-6', text: 'I → INSERT' },
+                          { id: 'node-7', text: 'U → UPDATE' },
+                          { id: 'node-8', text: 'D → DELETE' }
+                        ]
+                      },
+                      {
+                        id: 'node-9',
+                        text: 'Delta MERGE',
+                        children: [
+                          {
+                            id: 'node-10',
+                            text: 'Watermark Update',
+                            children: [
+                              { id: 'node-11', text: 'ETL_LOG' }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  };
+
   const state = {
     root: null,
     selectedId: null,
@@ -55,6 +179,7 @@
     pan: { x: 0, y: 0 },
     layout: 'right',
     theme: 'colorful',
+    currentTemplate: 'agent',
     history: [],
     historyIndex: -1,
     nextId: 1,
@@ -74,6 +199,7 @@
     layoutSelect: document.getElementById('layoutSelect'),
     themeSelect: document.getElementById('themeSelect'),
     searchInput: document.getElementById('searchInput'),
+    templateSelect: document.getElementById('templateSelect'),
     workspace: document.getElementById('workspace'),
     measureBox: null
   };
@@ -99,73 +225,28 @@
   }
 
   function loadInitialData() {
-    state.root = deserializeNode({
-      id: 'node-1',
-      text: '智能体',
-      children: [
-        {
-          id: 'node-2',
-          text: '大模型',
-          children: [
-            {
-              id: 'node-3',
-              text: '本地部署',
-              children: [
-                {
-                  id: 'node-4',
-                  text: 'Ollama',
-                  children: [
-                    { id: 'node-5', text: 'Deepseek R1' },
-                    { id: 'node-6', text: 'Qwen3' }
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'node-7',
-              text: '远程调用',
-              children: [
-                {
-                  id: 'node-8',
-                  text: '阿里云百炼',
-                  children: [
-                    { id: 'node-9', text: 'Qwen3' },
-                    { id: 'node-10', text: 'QWQ' },
-                    { id: 'node-11', text: 'QVQ' }
-                  ]
-                }
-              ]
-            },
-            { id: 'node-12', text: '大模型调用方法' }
-          ]
-        },
-        {
-          id: 'node-13',
-          text: '工具',
-          children: [
-            { id: 'node-14', text: 'Function Calling' },
-            { id: 'node-15', text: 'MCP工具' },
-            { id: 'node-16', text: 'LangChain内置工具' },
-            {
-              id: 'node-17',
-              text: '复杂工具',
-              children: [
-                { id: 'node-18', text: '浏览器控制' },
-                { id: 'node-19', text: '终端控制' }
-              ]
-            }
-          ]
-        },
-        {
-          id: 'node-20',
-          text: '智能体',
-          children: [
-            { id: 'node-21', text: 'React架构' }
-          ]
-        }
-      ]
-    });
+    loadTemplate('agent');
+  }
+
+  // 加载内置模板：重置整棵导图并套用推荐布局
+  function loadTemplate(name) {
+    const tpl = TEMPLATES[name];
+    if (!tpl) return;
+    state.nextId = 1;
+    // 深拷贝，避免模板源数据被编辑改动
+    state.root = deserializeNode(JSON.parse(JSON.stringify(tpl.data)));
+    state.layout = tpl.layout || 'right';
+    state.currentTemplate = name;
+    if (els.layoutSelect) els.layoutSelect.value = state.layout;
+    if (els.templateSelect) els.templateSelect.value = name;
+    state.history = [];
+    state.historyIndex = -1;
+    state.selectedId = state.root.id;
+    applyLayout();
+    fitView();
     pushHistory();
+    render();
+    selectNode(state.root.id, false);
   }
 
   /* ---------- 事件绑定 ---------- */
@@ -191,6 +272,17 @@
       applyTheme();
       applyLayout();
       render();
+    });
+
+    // 模板切换：已有编辑内容时先确认，避免误清空
+    els.templateSelect.addEventListener('change', (e) => {
+      const name = e.target.value;
+      const dirty = state.root && state.historyIndex > 0;
+      if (dirty && !confirm('切换模板会清空当前导图（未导出的内容将丢失），确定切换吗？')) {
+        if (els.templateSelect) els.templateSelect.value = state.currentTemplate || 'agent';
+        return;
+      }
+      loadTemplate(name);
     });
 
     els.searchInput.addEventListener('input', (e) => doSearch(e.target.value));
@@ -517,6 +609,7 @@
 
   function drawLink(parent, child) {
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('class', 'link');
     path.setAttribute('fill', 'none');
     path.setAttribute('stroke', child.color || THEMES[state.theme].line);
     path.setAttribute('stroke-width', CONFIG.lineWidth);
@@ -941,6 +1034,7 @@
     render();
   }
 
+  /* ---------- 折叠/展开 ---------- */
   function toggleCollapse() {
     const target = findById(state.selectedId);
     if (!target || !target.children || target.children.length === 0) return;
